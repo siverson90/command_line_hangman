@@ -1,28 +1,21 @@
-var wordBank = ["beans", "kale", "pumpkin"];
-var answerArray =[];
+var LetterCheck = require("./letter.js");
 
-var CreateWord = function (word) {
-  this.word = word;
-  console.log(this.word);
-  this.pushToAnswerArray = function () {
-    for (var i = 0; i < this.word.length; i++) {
-      answerArray.push(this.word[i]);
-      console.log(answerArray);
-    }
+var CreateWord = function (array) {
+  this.array = array;
+  // this.answerArray = [];
+  // this.hyphenArray = [];
+  // randomly selected word from bank
+  this.generateWord = function(){
+   // selects value based on length of wordBank Array
+    var selectRandomValue = Math.floor(Math.random() * this.array.length);
+    // Takes the randomly generated value and selects word based on index position
+    var secretWord = this.array[selectRandomValue];
+    // Word is split by each character
+    var splitString = secretWord.split("");
+    // loop through length of word and push to answer array && hypenarray
+    return splitString;
   }
-  this. 
-  pushToAnswerArray();
 }
 
 
-function pushToWordBank (array) {
-  var selectedValue = Math.floor(Math.random() * array.length);
-  var chosenWord = array[selectedValue];
-  var splitString = chosenWord.split("");
-  CreateWord(splitString);
-}
-
-pushToWordBank(wordBank);
-
-
-module.exports= CreateWord
+module.exports = CreateWord

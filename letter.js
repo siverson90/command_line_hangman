@@ -1,3 +1,15 @@
-var CreateWord = require("./word.js");
+var NewLetter = function (letter) {
+  this.letter = letter;
+  this.guessed = false;
+  this.placeholder = "-"
+  this.display = function () {
+    if (this.guessed === false) {
+      return this.placeholder;
+    } else {
+      return this.letter
+    }
+  }
+}
 
-var inquirer = require("inquirer");
+module.exports = NewLetter
+
