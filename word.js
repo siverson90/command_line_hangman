@@ -2,9 +2,6 @@ var LetterCheck = require("./letter.js");
 
 var CreateWord = function (array) {
   this.array = array;
-  // this.answerArray = [];
-  // this.hyphenArray = [];
-  // randomly selected word from bank
   this.generateWord = function(){
    // selects value based on length of wordBank Array
     var selectRandomValue = Math.floor(Math.random() * this.array.length);

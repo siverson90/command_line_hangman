@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/siverson90/command_line_hangman#readme",
   "dependencies": {
+    "alphabet": "^1.0.0",
     "inquirer": "^3.3.0"
   }
 }
