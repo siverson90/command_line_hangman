@@ -5,8 +5,12 @@ var NewLetter = require("./letter.js");
 var wordBank = ["beans", "kale", "pumpkin"];
 var wordArray = [];
 
-var userGuessesArray= [];
 var guessesCounter = 9;
+// keep score of letters guessed
+var prevouslyGuessedArr= [];
+// array of just letters for inital display
+var initialDisplay = [];
+
 var keyWord = new CreateWord(wordBank);
 var generator = keyWord.generateWord();
 
@@ -14,52 +18,59 @@ function letterToArray () {
   for ( var i = 0 ; i < generator.length; i++) {
     var letterObj = new NewLetter(generator[i]);
     wordArray.push(letterObj);
+    initialDisplay.push(letterObj.placeholder);
   }
 };
 
 letterToArray();
 
+console.log(initialDisplay.join());
+// console.log(initalString);
+
 function playGame () {
-    
+
     inquirer.prompt([
-    {
-      type: "input",
-      message : "Guess a letter",
-      name : "letter",
-    }]). then (function(userGuess) {
+      {
+        type: "input",
+        message : "Guess a letter",
+        name : "letter",
+      }]). then (function(userGuess) {
 
-      var letterGuessed = userGuess.letter;
-      var displayStr= "";
+        var letterGuessed = userGuess.letter;
+        var displayStr= "";
+        guessesCounter--;
+        prevouslyGuessedArr.push(letterGuessed);
+        console.log(prevouslyGuessedArr)
 
-      for ( var i = 0; i < wordArray.length; i++) {
-          if (wordArray[i].letter === letterGuessed) {
-          wordArray[i].guessed = true;
-          console.log(wordArray[i]);
-          displayStr += wordArray[i].display();
+        // Iterate through each letter object comparing user guess and correct letter
+        for ( var i = 0; i < wordArray.length; i++) {
+            if (wordArray[i].letter === letterGuessed) {
+            wordArray[i].guessed = true;
+            console.log(wordArray[i]);
+            displayStr += wordArray[i].display();
+          }
+            else {
+            console.log(wordArray[i]);
+            displayStr += wordArray[i].display();; 
+          }
         }
-          else {
-          console.log(wordArray[i]);
-          displayStr += wordArray[i].display();
-          guessesCounter= guessesCounter - 1
+        console.log("Word to Guess");
+        console.log(prevouslyGuessedArr.length);
+
+        
+        // Validate if there are still placeholders or if user has solved
+        if (displayStr.includes("-") && (guessesCounter - prevouslyGuessedArr.length > 1)) {
+          console.log ("You still have "+ guessesCounter+ " guesses");
+          console.log(guessesCounter - prevouslyGuessedArr.length);
+          console.log(displayStr);
+          playGame();
         }
-      }
-      console.log("Word to Guess");
-      
-      if (displayStr.includes("-")) {
-        console.log ("You still have "+ guessesCounter+ " guesses");
-        console.log(displayStr);
-        playGame();
-      } else {
-        console.log("You win the game");
-      }
-      
-      
-    //   if(displayStr.includes("-") = (true) && (guessesCounter > 1)) {
-    //     playGame()
-    //   }
-    //   else if(displayStr.includes("-") = (true) && (guessesCounter < 1)) {
-    //     console.log("Game Over")
-    //   }
+        else if(displayStr.includes("-") && (guessesCounter - prevouslyGuessedArr.length < 1)){
+          console.log("You loose the game");
+        }
+         else {
+          console.log("You win the game");
+        }
     });
 }
 
